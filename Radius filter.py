@@ -40,18 +40,28 @@ def filter_points_within_radius(center_lat, center_lon, points, radius_km):
     
     return filtered_points, filtered_node
 
+#read the sSioux-Falls input file
 df = pd.read_csv("SiouxFalls_node.tntp", sep='\t')
+#create a list of all the node cordinates
 points = list(zip(df['Y'].values, df['X'].values))
 
-radius_km = 25  # Radius in kilometers
+radius_km = 2  # Radius in kilometers
 my_list = []
+my_list1 = []
 for _,latlong in df.iterrows():
     filtered_points, filtered_node = filter_points_within_radius(latlong[2], latlong[1], points, radius_km)
     print(latlong[2], latlong[1], _+1, filtered_points)
+    my_tuple1 = [latlong[2], latlong[1], _+1, filtered_points, filtered_node]
     my_tuple = filtered_node
     my_list.append(my_tuple)
+    my_list1.append(my_tuple1)
 
+#only save the filtered nodes with origin as index value
 df1 = pd.DataFrame(my_list)
-#df1.columns = [ "Node number"]
-
 df1.to_csv("filtered_nodes.csv", index=False)
+
+#save the origin cordinates, origin node number, and all filtered nodes
+df2 = pd.DataFrame(my_list1)
+df1.columns = ["X", "Y", "Origin node", "Node number"]
+df2.to_csv("filtered_nodes_with_origin_node.csv", index=False)
+
