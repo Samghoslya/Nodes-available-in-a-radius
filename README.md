@@ -1,4 +1,4 @@
-# Nodes-available-in-a-radius
+# Nodes available in a radius
 Find all the nodes in a given radius from the origin
 
 * Get the cordinates for all the nodes
